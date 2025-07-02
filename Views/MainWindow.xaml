@@ -1,12 +1,36 @@
-﻿<Window x:Class="OfficeEquipmentManager.MainWindow"
+﻿<Window x:Class="OfficeEquipmentManager.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OfficeEquipmentManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Учёт офисного оборудования" Height="450" Width="800">
 
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Список оборудования" FontSize="20" HorizontalAlignment="Center" Grid.Row="0"/>
+
+        <!-- Таблица -->
+        <DataGrid ItemsSource="{Binding Equipments}" SelectedItem="{Binding SelectedEquipment}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Type.DisplayName}" Width="*"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status.DisplayName}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
+            <Button Content="Добавить" Command="{Binding AddCommand}" Width="100"/>
+            <Button Content="Редактировать" Command="{Binding EditCommand}" Width="100"/>
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100"/>
+        </StackPanel>
     </Grid>
 </Window>

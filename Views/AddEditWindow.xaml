@@ -1,0 +1,35 @@
+﻿<Window x:Class="OfficeEquipmentManager.Views.AddEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Добавление/редактирование оборудования" Height="300" Width="400"
+        ResizeMode="NoResize">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Название:" Grid.Row="0" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding Equipment.Name}" Grid.Row="0" Grid.Column="1" Margin="100,0,0,0"/>
+
+        <TextBlock Text="Тип:" Grid.Row="1" VerticalAlignment="Center"/>
+        <ComboBox ItemsSource="{Binding EquipmentTypes}" DisplayMemberPath="DisplayName"
+                  SelectedItem="{Binding Equipment.Type}" Grid.Row="1" Grid.Column="1" Margin="100,0,0,0"/>
+
+        <TextBlock Text="Статус:" Grid.Row="2" VerticalAlignment="Center"/>
+        <ComboBox ItemsSource="{Binding EquipmentStatuses}" DisplayMemberPath="DisplayName"
+                  SelectedItem="{Binding Equipment.Status}" Grid.Row="2" Grid.Column="1" Margin="100,0,0,0"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="4" Margin="0,10,0,0">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100" IsDefault="True"/>
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
