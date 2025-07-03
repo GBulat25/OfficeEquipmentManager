@@ -1,23 +1,36 @@
 ﻿using OfficeEquipmentManager.Models;
 using OfficeEquipmentManager.Services;
 using OfficeEquipmentManager.Storage;
-using System.Collections.Generic;
-using System.Linq;
 
+/// <summary>
+/// Сервис для работы с оборудованием.
+/// Реализует CRUD-операции через IStorage
+/// </summary>
 public class EquipmentService : IEquipmentService
 {
     private readonly IStorage _storage;
 
+    /// <summary>
+    /// Конструктор сервиса
+    /// </summary>
+    /// <param name="storage">Источник данных (JSON, БД и т.д.)</param>
     public EquipmentService(IStorage storage)
     {
         _storage = storage;
     }
 
+    /// <summary>
+    /// Получает все записи оборудования из хранилища
+    /// </summary>
     public List<Equipment> GetAll()
     {
         return _storage.LoadAll();
     }
 
+    /// <summary>
+    /// Добавляет новое оборудование в список
+    /// Назначает уникальный Id
+    /// </summary>
     public void Add(Equipment equipment)
     {
         var list = _storage.LoadAll();
@@ -26,6 +39,9 @@ public class EquipmentService : IEquipmentService
         _storage.SaveAll(list);
     }
 
+    /// <summary>
+    /// Обновляет данные оборудования
+    /// </summary>
     public void Update(Equipment equipment)
     {
         var list = _storage.LoadAll();
@@ -37,6 +53,9 @@ public class EquipmentService : IEquipmentService
         }
     }
 
+    /// <summary>
+    /// Удаляет оборудование по Id
+    /// </summary>
     public void Delete(int id)
     {
         var list = _storage.LoadAll();

@@ -1,29 +1,44 @@
 ﻿using OfficeEquipmentManager.Commands;
 using OfficeEquipmentManager.Models;
 using OfficeEquipmentManager.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using OfficeEquipmentManager.Services;
 using OfficeEquipmentManager.Views;
+using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace OfficeEquipmentManager.ViewModels
 {
-    public class MainViewModel:ViewModelBase
+    /// <summary>
+    /// ViewModel для главного окна приложения
+    /// </summary>
+    public class MainViewModel : ViewModelBase
     {
         private readonly IEquipmentService _service;
         private Equipment _selectedEquipment;
 
+        /// <summary>
+        /// Список всего оборудования (привязка к DataGrid)
+        /// </summary>
         public ObservableCollection<Equipment> Equipments { get; }
+
+        /// <summary>
+        /// Команда "Добавить"
+        /// </summary>
         public ICommand AddCommand { get; }
+
+        /// <summary>
+        /// Команда "Редактировать"
+        /// </summary>
         public ICommand EditCommand { get; }
+
+        /// <summary>
+        /// Команда "Удалить"
+        /// </summary>
         public ICommand DeleteCommand { get; }
 
+        /// <summary>
+        /// Выбранное оборудование (привязка к SelectedItem в DataGrid)
+        /// </summary>
         public Equipment SelectedEquipment
         {
             get => _selectedEquipment;
@@ -35,6 +50,11 @@ namespace OfficeEquipmentManager.ViewModels
                 ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
             }
         }
+
+        /// <summary>
+        /// Конструктор MainViewModel
+        /// Загружает данные из сервиса и создаёт команды
+        /// </summary>
         public MainViewModel(IEquipmentService service)
         {
             _service = service;
@@ -44,13 +64,20 @@ namespace OfficeEquipmentManager.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
             DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
         }
+
+        /// <summary>
+        /// Обработчик команды "Добавить"
+        /// Открывает форму добавления
+        /// При успешном сохранении добавляет запись в список
+        /// </summary>
         private void OnAdd(object obj)
         {
             try
             {
                 var newEquipment = new Equipment("", EquipmentType.Printer, EquipmentStatus.OnStock);
-                var viewModel = new AddEditViewModel(_service, newEquipment); 
+                var viewModel = new AddEditViewModel(_service, newEquipment);
                 var window = new AddEditWindow(viewModel);
+
                 if (window.ShowDialog() == true && viewModel.Equipment != null)
                 {
                     Equipments.Add(viewModel.Equipment);
@@ -63,6 +90,11 @@ namespace OfficeEquipmentManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Обработчик команды "Редактировать"
+        /// Создаёт копию выбранного оборудования и открывает форму редактирования
+        /// При сохранении обновляет данные в списке и хранилище
+        /// </summary>
         private void OnEdit(object obj)
         {
             if (SelectedEquipment == null) return;
@@ -87,6 +119,10 @@ namespace OfficeEquipmentManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Обработчик команды "Удалить"
+        /// Удаляет запись из списка и хранилища
+        /// </summary>
         private void OnDelete(object obj)
         {
             if (SelectedEquipment != null)
@@ -96,6 +132,9 @@ namespace OfficeEquipmentManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Проверяет, можно ли выполнять команды "Редактировать" и "Удалить"
+        /// </summary>
         private bool CanEditOrDelete(object obj) => SelectedEquipment != null;
     }
 }

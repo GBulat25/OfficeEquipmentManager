@@ -1,14 +1,5 @@
 ﻿using OfficeEquipmentManager.ViewModels;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace OfficeEquipmentManager.Views
 {
@@ -17,9 +8,15 @@ namespace OfficeEquipmentManager.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Конструктор главного окна
+        /// Принимает MainViewModel через внедрение зависимостей
+        /// </summary>
         public MainWindow(MainViewModel viewModel)
         {
-            InitializeComponent();
+            InitializeComponent(); // <-- загружает XAML интерфейс
+
+            // Устанавливаем DataContext, чтобы все элементы могли привязаться к MainViewModel
             DataContext = viewModel;
         }
     }
