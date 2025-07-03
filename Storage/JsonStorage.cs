@@ -7,16 +7,16 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace OfficeEquipmentManager.Storga
+namespace OfficeEquipmentManager.Storage
 {
-    public  class JsonStorage
+    public  class JsonStorage:IStorage
     {
         private readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "equipment.json");
 
         public List<Equipment> LoadAll()
         {
             if (!File.Exists(_filePath))
-                return new List<Equipment>();
+                SaveAll(new List<Equipment>());
 
             var json = File.ReadAllText(_filePath);
             return JsonSerializer.Deserialize<List<Equipment>>(json);

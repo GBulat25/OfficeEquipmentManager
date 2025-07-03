@@ -1,6 +1,6 @@
 ﻿using OfficeEquipmentManager.Models;
 using OfficeEquipmentManager.Services;
-using OfficeEquipmentManager.Storga;
+using OfficeEquipmentManager.Storage;
 using System.Collections.Generic;
 using System.Linq;
 

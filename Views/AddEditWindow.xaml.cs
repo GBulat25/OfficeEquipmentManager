@@ -15,13 +15,21 @@ using System.Windows.Shapes;
 namespace OfficeEquipmentManager.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Window1.xaml
+    /// Логика взаимодействия для AddEditWindow.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class AddEditWindow : Window
     {
-        public Window1()
+        public AddEditViewModel ViewModel => DataContext as AddEditViewModel;
+
+        public AddEditWindow(AddEditViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
+            viewModel.OnRequestClose += equipment =>
+            {
+                DialogResult = equipment != null; // устанавливаем результат диалога
+                Close(); // закрываем окно
+            };
         }
     }
 }

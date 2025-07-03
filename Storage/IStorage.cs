@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OfficeEquipmentManager.Storga
+namespace OfficeEquipmentManager.Storage
 {
     public interface IStorage
     {

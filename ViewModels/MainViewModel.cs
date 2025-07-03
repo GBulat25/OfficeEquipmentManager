@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using OfficeEquipmentManager.Services;
+using OfficeEquipmentManager.Views;
+using System.Windows;
 
 namespace OfficeEquipmentManager.ViewModels
 {
@@ -44,12 +46,44 @@ namespace OfficeEquipmentManager.ViewModels
         }
         private void OnAdd(object obj)
         {
-            // Логика открытия окна добавления
+            try
+            {
+                var newEquipment = new Equipment("", EquipmentType.Printer, EquipmentStatus.OnStock);
+                var viewModel = new AddEditViewModel(_service, newEquipment); 
+                var window = new AddEditWindow(viewModel);
+                if (window.ShowDialog() == true && viewModel.Equipment != null)
+                {
+                    Equipments.Add(viewModel.Equipment);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         private void OnEdit(object obj)
         {
-            // Логика редактирования выбранного оборудования
+            if (SelectedEquipment == null) return;
+
+            var equipmentCopy = new Equipment
+            {
+                Id = SelectedEquipment.Id,
+                Name = SelectedEquipment.Name,
+                Type = SelectedEquipment.Type,
+                Status = SelectedEquipment.Status
+            };
+
+            var addEditViewModel = new AddEditViewModel(_service, equipmentCopy);
+
+            var window = new AddEditWindow(addEditViewModel);
+            if (window.ShowDialog() == true)
+            {
+                _service.Update(window.ViewModel.Equipment);
+                var index = Equipments.IndexOf(SelectedEquipment);
+                Equipments.RemoveAt(index);
+                Equipments.Insert(index, window.ViewModel.Equipment);
+            }
         }
 
         private void OnDelete(object obj)
