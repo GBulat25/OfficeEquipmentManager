@@ -40,21 +40,16 @@ public class AddEditViewModel : ViewModelBase
 
     private void OnSave(object obj)
     {
-        Console.WriteLine("OnSave вызван");
         OnRequestClose?.Invoke(Equipment);
     }
 
     private void OnCancel(object obj)
     {
-        OnRequestClose?.Invoke(Equipment);
+        OnRequestClose?.Invoke(null);
     }
 
-    private bool CanSave(object obj)
-    {
-        var canSave = !string.IsNullOrWhiteSpace(Equipment?.Name);
-        Console.WriteLine($"CanSave: {canSave}, Name: '{Equipment?.Name}'");
-        return canSave;
-    }
+    private bool CanSave(object obj) =>
+    !string.IsNullOrWhiteSpace(Equipment?.Name);
 
     public event Action<Equipment> OnRequestClose;
 }
