@@ -54,6 +54,7 @@ namespace OfficeEquipmentManager.ViewModels
                 if (window.ShowDialog() == true && viewModel.Equipment != null)
                 {
                     Equipments.Add(viewModel.Equipment);
+                    _service.Add(viewModel.Equipment);
                 }
             }
             catch (Exception ex)
